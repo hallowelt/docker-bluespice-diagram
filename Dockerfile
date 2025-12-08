@@ -35,6 +35,8 @@ RUN apk add --no-cache openjdk21 \
     && adduser -G $USER -u $UID --disabled-password --gecos "" $USER
 
 COPY --from=builder --chown=tomcat:tomcat /opt/tomcat /opt/tomcat
+RUN chgrp -R 0 /opt/tomcat && \
+    chmod -R g=u /opt/tomcat
 EXPOSE 8080
-USER $USER
+USER 1000
 ENTRYPOINT ["/opt/tomcat/bin/catalina.sh","run" ]
