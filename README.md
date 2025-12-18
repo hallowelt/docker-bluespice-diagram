@@ -1,40 +1,9 @@
-# BlueSpice "Diagram" service
+<img alt="BlueSpice Logo" align="right" src="https://bluespice.com/wp-content/uploads/2022/09/bluespice_logo.png" />
 
-This currently is just a regular DrawIO server.
+# `bluespice/diagram` service for BlueSpice
 
-## Using it within BlueSpice or MediaWiki
+This service is the diagram component. It provides diagram functionality for BlueSpice.
 
-Given you have this service running at `http://localhost:8080/`, you can configure the BlueSpice diagram like this:
+It is part of the [BlueSpice MediaWiki deployment stack](https://github.com/hallowelt/bluespice-deploy). Instructions on how to use it can be found on the [official helpdesk 📚](https://en.wiki.bluespice.com/wiki/Setup:Installation_Guide/Docker). For questions and support, please use the [contact form 🌐](https://bluespice.com/contact/) or visit the [community forums 💡](https://community.bluespice.com/).
 
-```php
-$GLOBALS['wgDrawioEditorBackendUrl'] = 'http://localhost:8080';
-```
-
-## How to release a new version
-
-### Build a new version of the image
-```sh
-docker build -t bluespice/diagram:latest .
-```
-
-### Apply proper tags
-HINT: We align the image tags with the version of BlueSpice that it is compatible with.
-
-Example:
-```sh
-docker tag bluespice/diagram:latest bluespice/diagram:4
-docker tag bluespice/diagram:latest bluespice/diagram:4.4
-docker tag bluespice/diagram:latest bluespice/diagram:4.4.1
-```
-
-### Push the image to the registry
-Example:
-```sh
-docker push bluespice/diagram:latest
-docker push bluespice/diagram:4
-docker push bluespice/diagram:4.4
-docker push bluespice/diagram:4.4.1
-```
-
-## Testing
-Install `trivy` and run `trivy image bluespice/diagram` to check for vulnerabilities.
+The `main` branch of this repository is intentionally kept empty. Please refer to the specific version branches (e.g., `5.1.x`, `5.2.x`, etc.) for the relevant Dockerfiles and configurations corresponding to each BlueSpice version.
