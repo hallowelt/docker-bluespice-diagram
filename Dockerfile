@@ -1,7 +1,4 @@
-ARG BASE_IMAGE=alpine:3
-
-FROM $BASE_IMAGE AS builder
-
+FROM alpine:3 AS builder
 
 ARG TOMCAT_VERSION=10.1.55
 ARG TOMCAT_SHA512SUM=f36af12391a277e5c3a802a8e1a2a1e4354cd461b547d2e1a33ac0ab88d707d3fb2591e034a17b7d3a6b965a4c977a97dbf29bb81a3867e85aeec3d8d189e22e
@@ -23,7 +20,7 @@ RUN wget https://github.com/jgraph/drawio/releases/download/v$DRAWIO_VERSION/dra
     && ln -sf /opt/tomcat/webapps/_diagram /opt/tomcat/webapps/ROOT \
     && rm -rf draw.war
 
-FROM $BASE_IMAGE AS main
+FROM alpine:3 AS main
 
 ARG JAVA_OPTS="-Xverify:none"
 ENV JAVA_OPTS=$JAVA_OPTS
@@ -32,10 +29,10 @@ ARG UID=1000
 ENV UID=$UID
 
 RUN apk add --no-cache openjdk21 \
-    && addgroup -g $UID $USER \
-    && adduser -G $USER -u $UID --disabled-password --gecos "" $USER
+    && adduser -D -G root --disabled-password --gecos -u $UID $USER
 
-COPY --from=builder --chown=tomcat:tomcat /opt/tomcat /opt/tomcat
+COPY --from=builder --chown=$UID:0 /opt/tomcat /opt/tomcat
+RUN chmod -R g=u /opt/tomcat
 EXPOSE 8080
-USER $USER
+USER $UID
 ENTRYPOINT ["/opt/tomcat/bin/catalina.sh","run" ]
