@@ -39,3 +39,4 @@ COPY --from=builder --chown=tomcat:tomcat /opt/tomcat /opt/tomcat
 EXPOSE 8080
 USER $USER
 ENTRYPOINT ["/opt/tomcat/bin/catalina.sh","run" ]
+
