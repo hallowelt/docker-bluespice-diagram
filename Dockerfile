@@ -29,7 +29,7 @@ ARG UID=1000
 ENV UID=$UID
 
 RUN apk add --no-cache openjdk21 \
-    && adduser -D -G root --disabled-password --gecos -u $UID $USER
+    && adduser -D -G root --disabled-password -u $UID $USER
 
 COPY --from=builder --chown=$UID:0 /opt/tomcat /opt/tomcat
 RUN chmod -R g=u /opt/tomcat
