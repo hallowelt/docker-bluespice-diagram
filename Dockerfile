@@ -33,6 +33,11 @@ RUN apk add --no-cache openjdk21 \
 
 COPY --from=builder --chown=$UID:0 /opt/tomcat /opt/tomcat
 RUN chmod -R g=u /opt/tomcat
+
+# Build info: value of build arg BUILDINFO, `-` if not set
+ARG BUILDINFO
+RUN mkdir -p /image && echo "${BUILDINFO:--}" > /image/BUILDINFO
+
 EXPOSE 8080
 USER $UID
 ENTRYPOINT ["/opt/tomcat/bin/catalina.sh","run" ]
